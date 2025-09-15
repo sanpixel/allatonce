@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getSupabase, initializeSupabase } from '../supabaseClient';
+import TodoCard from './TodoCard';
 import logo from '../logo.svg';
 
 export default function Auth() {
@@ -71,6 +72,8 @@ export default function Auth() {
         <img src={logo} className="App-logo" alt="logo" />
         <p>Welcome, {session.user.email}!</p>
         <button onClick={signOut}>Sign Out</button>
+        <div style={{margin: '20px 0'}} />
+        <TodoCard />
       </>
     );
   }
@@ -108,6 +111,8 @@ export default function Auth() {
         Sign in with Google
       </button>
       {!config && <p style={{color: 'red', fontSize: '12px'}}>Config not loaded</p>}
+      <div style={{margin: '20px 0'}} />
+      <TodoCard />
       <p>
         <a
           className="App-link"
