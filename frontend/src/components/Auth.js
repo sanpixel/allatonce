@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getSupabase, initializeSupabase } from '../supabaseClient';
 import TodoCard from './TodoCard';
+import AICard from './AICard';
 import logo from '../logo.svg';
 
 export default function Auth() {
@@ -8,6 +9,8 @@ export default function Auth() {
   const [supabase, setSupabase] = useState(null);
   const [loading, setLoading] = useState(true);
   const [config, setConfig] = useState(null);
+  const [refreshTodos, setRefreshTodos] = useState(0);
+  const handleTodoAdded = () => setRefreshTodos(prev => prev + 1);
 
   useEffect(() => {
     const setupAuth = async () => {
@@ -73,7 +76,10 @@ export default function Auth() {
         <p>Welcome, {session.user.email}!</p>
         <button onClick={signOut}>Sign Out</button>
         <div style={{margin: '20px 0'}} />
-        <TodoCard />
+        <div style={{display: 'flex', gap: '20px', flexWrap: 'wrap'}}>
+          <TodoCard key={refreshTodos} />
+          <AICard onTodoAdded={handleTodoAdded} />
+        </div>
       </>
     );
   }
@@ -112,7 +118,10 @@ export default function Auth() {
       </button>
       {!config && <p style={{color: 'red', fontSize: '12px'}}>Config not loaded</p>}
       <div style={{margin: '20px 0'}} />
-      <TodoCard />
+      <div style={{display: 'flex', gap: '20px', flexWrap: 'wrap'}}>
+        <TodoCard key={refreshTodos} />
+        <AICard onTodoAdded={handleTodoAdded} />
+      </div>
       <p>
         <a
           className="App-link"
